@@ -1,0 +1,5 @@
+{
+    "apiUrl": "http://localhost:8080",
+    "maxRequests": 10,
+    "retryDelay": 500
+}

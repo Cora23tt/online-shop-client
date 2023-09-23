@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#317EFB" />
+
+    <title>Your SPA</title>
+
+    <link rel="manifest" href="./site.webmanifest">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <!-- <link rel="manifest" href="/site.webmanifest"> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="/js/main.js"></script>
+
+    <style>
+        section {
+            display: none;
+        }
+
+        section:target {
+            display: block;
+        }
+
+        #loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark sticky-top" id="navbar" style="display: none;">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#index">Brand</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
+                aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+                aria-labelledby="offcanvasDarkNavbarLabel">
+
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" onclick="$('#close-nav-btn').click(); window.location.hash='#index'">Brand</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close" id="close-nav-btn"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item" id="registration-btn-itm">
+                            <a class="nav-link active" href="#registration">Registration</a>
+                        </li>
+                        <li class="nav-item" id="login-btn-itm">
+                            <a class="nav-link active" href="#login">Login</a>
+                        </li>
+                        <li class="nav-item" id="logout-btn-itm">
+                            <a class="nav-link active" id="logout-btn">Logout</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link active" onclick="$('#close-nav-btn').click()" href="#index">Home</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" onclick="$('#close-nav-btn').click()" id="cart-btn">Cart</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="checkout">
+        <div class="container my-5">
+            <h2 class="mb-4">Checkout</h2>
+            <form id="checkout-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+                <div class="mb-3">
+                    <label for="credit-card" class="form-label">Credit Card Number:</label>
+                    <input type="text" class="form-control" id="credit-card" name="credit-card" required>
+                </div>
+                <div class="mb-3">
+                    <label for="expiry-date" class="form-label">Expiry Date:</label>
+                    <input type="text" class="form-control" id="expiry-date" name="expiry-date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cvv" class="form-label">CVV:</label>
+                    <input type="text" class="form-control" id="cvv" name="cvv" required>
+                </div>
+                <button type="submit" class="btn btn-primary disabled">Place Order</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="cart">
+        <div class="container my-5">
+            <h2>Корзина</h2>
+            <div id="empty-cart-title" style="display: none;">
+                <h4 style="color: gray;">Здесь пусто</h4>
+                <p style="color: gray;">Чтобы купить товары нужно сначала добавить их в корзину</p>
+            </div>
+            <div class="row" id="cart-items-container">
+            </div>
+            <button class="btn btn-primary mb-3" id="checkout-btn">Оформить заказ</button>
+        </div>
+    </section>
+
+    <section id="index">
+        <ul class="nav nav-tabs" id="categories-nav">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-all">All</a>
+            </li>
+        </ul>
+
+        <div class="container mt-4">
+            <div class="row" id="products-row">
+            </div>
+        </div>
+    </section>
+
+    <section id="product">
+        <div class="container my-5">
+            <div class="row" id="product-details-view">
+            </div>
+        </div>
+    </section>
+
+    <section id="login">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center mb-4">Login</h3>
+                            <form id="signin-form" class="mb-4">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email" id="loginEmail"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password"
+                                        id="loginPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </form>
+                            <p>Не успели зарегистрироваться? <a href="#registration">Регистрация</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="registration">
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-center mb-4" id="auth-form-label">Registration</h3>
+                            <form id="signup-form" class="mb-4">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="Email" id="signup-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Password" id="signup-password"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </form>
+                            <p>Уже есть аккаунт? <a href="#login">Вход</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div cl ass="d-flex justify-content-center align-items-center" id="loading-indicator">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="ml-2">Loading...</div>
+    </div>
+
+</body>
+
+</html>
