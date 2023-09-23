@@ -1,5 +1,5 @@
 {
-    "apiUrl": "http://localhost:8080",
+    "apiUrl": "https://online-shop-tshb.onrender.com",
     "maxRequests": 10,
     "retryDelay": 500
 }
